@@ -1,7 +1,9 @@
 const {Builder, By, until} = require('selenium-webdriver');
 
-let userDataDir = '/Users/eprokop/spring2019/cs244/cs244-webrtc-client/user-data-dir';
-let downloadDir = '/Users/eprokop/spring2019/cs244/cs244-webrtc-client/downloads';
+// let userDataDir = '/Users/eprokop/spring2019/cs244/cs244-webrtc-client/user-data-dir';
+// let downloadDir = '/Users/eprokop/spring2019/cs244/cs244-webrtc-client/downloads';
+let userDataDir = '/home/eprokop/cs244-webrtc-client-driver/user-data-dir';
+let downloadDir = '/home/eprokop/cs244-webrtc-client-driver/downloads';
 let signalServer = 'http://35.211.152.60';
 
 let webdriver = require('selenium-webdriver');

@@ -1,14 +1,18 @@
 const {Builder, By, until} = require('selenium-webdriver');
 
+// FOR LOCAL OS X
 // let userDataDir = '/Users/eprokop/spring2019/cs244/cs244-webrtc-client/user-data-dir';
 // let downloadDir = '/Users/eprokop/spring2019/cs244/cs244-webrtc-client/downloads';
+
+// FOR REMOTE UBUNTU:
 let userDataDir = '/home/eprokop/cs244-webrtc-client-driver/user-data-dir';
 let downloadDir = '/home/eprokop/cs244-webrtc-client-driver/downloads';
 let signalServer = 'http://35.211.152.60';
+let TIMEOUT_MS = 40000;
 
-let webdriver = require('selenium-webdriver');
 let chrome = require('selenium-webdriver/chrome');
 let chromedriver = require('chromedriver');
+console.log(chromedriver.path);
 
 let o = new chrome.Options();
 
@@ -29,8 +33,9 @@ o.setUserPreferences({
     'download.prompt_for_download': 'false',
 });
 
-o.addArguments('--headless');
-o.addArguments('--disable-gpu');
+// Don't need these if running with Xvfb
+// o.addArguments('--headless');
+// o.addArguments('--disable-gpu');
 
 (async function example() {
     let driver = await new Builder()
@@ -44,46 +49,7 @@ o.addArguments('--disable-gpu');
 
     try {
         await driver.get(signalServer + ':8080');
-        // await driver.findElement(By.name('q'));.sendKeys('webdriver', Key.RETURN);
-        // await driver.wait(until.titleIs('webdriver - Google Search'), 1000);
     } finally {
-        setTimeout(quit, 3000);
-        //await driver.quit();
+        setTimeout(quit, TIMEOUT_MS);
     }
 })();
-
-
-//
-// let Page = function() {
-//     this.driver = new Builder()
-//         .setChromeOptions(o)
-//         .forBrowser('chrome')
-//         .build();
-//
-//     // visit a webpage
-//     this.visit = async function(theUrl) {
-//         return await this.driver.get(theUrl);
-//     };
-//
-//     // quit current session
-//     this.quit = async function() {
-//         return await this.driver.quit();
-//     };
-//
-//     // wait and find a specific element with it's id
-//     this.findById = async function(id) {
-//         await this.driver.wait(until.elementLocated(By.id(id)), 15000, 'Looking for element');
-//         return await this.driver.findElement(By.id(id));
-//     };
-//
-//     // wait and find a specific element with it's name
-//     this.findByName = async function(name) {
-//         await this.driver.wait(until.elementLocated(By.name(name)), 15000, 'Looking for element');
-//         return await this.driver.findElement(By.name(name));
-//     };
-//
-//     // fill input web elements
-//     this.write = async function (el, txt) {
-//         return await el.sendKeys(txt);
-//     };
-// };

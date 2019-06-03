@@ -1,5 +1,8 @@
 const {Builder, By, until} = require('selenium-webdriver');
 
+let userDataDir = '/Users/eprokop/spring2019/cs244/cs244-webrtc-client/user-data-dir';
+let downloadDir = '/Users/eprokop/spring2019/cs244/cs244-webrtc-client/downloads';
+let signalServer = 'http://35.211.152.60';
 
 let webdriver = require('selenium-webdriver');
 let chrome = require('selenium-webdriver/chrome');
@@ -11,10 +14,21 @@ chrome.setDefaultService(new chrome.ServiceBuilder(chromedriver.path).build());
 o.addArguments('--disable-web-security');
 o.addArguments('--safebrowsing-disable-download-protection');
 o.addArguments('--remote-debugging-port=9222');
-o.addArguments('--user-data-dir=/Users/eprokop/spring2019/cs244/cs244-webrtc-client/user-data-dir');
+o.addArguments('--user-data-dir=' + userDataDir);
 o.addArguments('--reduce-security-for-testing');
 o.addArguments('--allow-http-screen-capture');
-o.addArguments('--unsafely-treat-insecure-origin-as-secure=http://35.211.152.60');
+o.addArguments('--unsafely-treat-insecure-origin-as-secure=' + signalServer);
+o.setUserPreferences({
+    'download.default_directory': downloadDir,
+    'Page.setDownloadBehavior': {
+        'behavior': 'allow',
+        'downloadPath': downloadDir,
+    },
+    'download.prompt_for_download': 'false',
+});
+
+o.addArguments('--headless');
+o.addArguments('--disable-gpu');
 
 (async function example() {
     let driver = await new Builder()
@@ -27,7 +41,7 @@ o.addArguments('--unsafely-treat-insecure-origin-as-secure=http://35.211.152.60'
     }
 
     try {
-        await driver.get('http://35.211.152.60:8080');
+        await driver.get(signalServer + ':8080');
         // await driver.findElement(By.name('q'));.sendKeys('webdriver', Key.RETURN);
         // await driver.wait(until.titleIs('webdriver - Google Search'), 1000);
     } finally {
